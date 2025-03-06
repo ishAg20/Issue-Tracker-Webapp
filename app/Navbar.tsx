@@ -1,8 +1,12 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { GoIssueTracks } from "react-icons/go";
+import { usePathname } from "next/navigation";
+import classnames from "classnames";
 
 const Navbar = () => {
+  const currentPath = usePathname();
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
@@ -18,11 +22,14 @@ const Navbar = () => {
         </Link>
         <ul className="flex space-x-4">
           {links.map((link) => (
-            <li>
+            <li key={link.href}>
               <Link
-                key={link.href}
                 href={link.href}
-                className="text-black hover:text-zinc-600 transition-colors "
+                className={classnames({
+                  "text-zinc-900": link.href === currentPath,
+                  "text-zinc-500": link.href !== currentPath,
+                  "hover:text-zinc-700 transition-colors": true,
+                })}
               >
                 {link.label}
               </Link>
