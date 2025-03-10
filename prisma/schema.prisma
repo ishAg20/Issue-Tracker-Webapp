@@ -7,16 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Issue {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description String   @db.Text
-  status      Status   @default(OPEN)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model issue {
+  id          Int          @id @default(autoincrement())
+  title       String       @db.VarChar(255)
+  description String       @db.Text
+  status      issue_status @default(OPEN)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime
 }
 
-enum Status {
+enum issue_status {
   OPEN
   IN_PROGRESS
   CLOSED
