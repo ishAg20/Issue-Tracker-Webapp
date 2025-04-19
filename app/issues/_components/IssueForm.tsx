@@ -35,7 +35,7 @@ const IssueForm = ({ Issue }: { Issue?: Issue }) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      if (Issue) await axios.patch("/api/issues" + Issue.id, data);
+      if (Issue) await axios.patch(`/api/issues/${Issue.id}`, data);
       else await axios.post("/api/issues", data);
       router.push("/issues/list");
       router.refresh();
