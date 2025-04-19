@@ -12,7 +12,7 @@ import { issueSchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import { issue } from "@prisma/client";
+import { Issue } from "@prisma/client";
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
@@ -20,7 +20,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-const IssueForm = ({ issue }: { issue?: issue }) => {
+const IssueForm = ({ Issue }: { Issue?: Issue }) => {
   const router = useRouter();
   const {
     register,
@@ -35,7 +35,7 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      if (issue) await axios.patch("/api/issues" + issue.id, data);
+      if (Issue) await axios.patch("/api/issues" + Issue.id, data);
       else await axios.post("/api/issues", data);
       router.push("/issues/list");
       router.refresh();
@@ -69,7 +69,7 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
           )}
         />
         <Button disabled={isSubmitting}>
-          {issue ? "Update Issue" : "Submit New Issue"}
+          {Issue ? "Update Issue" : "Submit New Issue"}
           {isSubmitting && <Spinner />}
         </Button>
       </form>

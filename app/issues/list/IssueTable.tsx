@@ -1,3 +1,4 @@
+"use client";
 import { IssueStatusBadge } from "@/app/components";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { Table } from "@radix-ui/themes";
@@ -29,10 +30,12 @@ const IssueTable = ({ searchParams, issues }: Props) => {
             >
               <NextLink
                 href={{
-                  query: {
-                    ...searchParams,
-                    orderBy: column.value,
-                  },
+                  query: JSON.parse(
+                    JSON.stringify({
+                      ...searchParams,
+                      orderBy: column.value,
+                    })
+                  ),
                 }}
               >
                 {column.label}
