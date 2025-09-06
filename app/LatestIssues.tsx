@@ -29,7 +29,7 @@ const LatestIssues = async () => {
                   </Flex>
                   {issue.assignedToUserId && (
                     <Avatar
-                      src={issue.assignedToUser?.image!}
+                      src={issue.assignedToUser?.image ?? undefined}
                       fallback="?"
                       size="2"
                       radius="full"
