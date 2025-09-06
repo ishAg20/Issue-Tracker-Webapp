@@ -10,17 +10,13 @@ import AssigneeSelect from "./AssigneeSelect";
 import { cache } from "react";
 import delay from "delay";
 
-interface Props {
-  params: { id: string };
-}
-
 const fetchUser = cache((issueId: number) => {
   return prisma.issue.findUnique({
     where: { id: issueId },
   });
 });
 
-const IssueDetailPage = async ({ params }: Props) => {
+const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
 
   const issue = await fetchUser(parseInt(params.id));
@@ -51,7 +47,7 @@ const IssueDetailPage = async ({ params }: Props) => {
 
 export default IssueDetailPage;
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
   const issue = await fetchUser(parseInt(params.id));
 
   return {
