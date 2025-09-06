@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { Skeleton } from "@/app/components";
 import React from "react";
 import { AiFillBug } from "react-icons/ai";
-import classnames from "classnames";
 import { useSession } from "next-auth/react";
 import {
   Avatar,
@@ -15,6 +14,7 @@ import {
   Flex,
   Text,
 } from "@radix-ui/themes";
+import classNames from "classnames";
 
 const Navbar = () => {
   return (
@@ -46,7 +46,7 @@ const NavLinks = () => {
       {links.map((link) => (
         <li key={link.href}>
           <Link
-            className={classnames({
+            className={classNames({
               "text-zinc-900": link.href === currentPath,
               "text-zinc-500": link.href !== currentPath,
               "hover:text-zinc-800 transition-colors": true,

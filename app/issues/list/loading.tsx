@@ -25,7 +25,7 @@ const LoadingIssuesPage = () => {
             <Table.Row key={issue}>
               <Table.Cell>
                 <Skeleton />
-                <div className="hidden md:table-cell">
+                <div className="block md:hidden">
                   <Skeleton />
                 </div>
               </Table.Cell>

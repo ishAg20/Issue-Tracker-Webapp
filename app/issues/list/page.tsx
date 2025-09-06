@@ -5,12 +5,13 @@ import IssueActions from "./IssueActions";
 import IssueTable, { IssueQuery, columnNames } from "./IssueTable";
 import { Metadata } from "next";
 import { Flex } from "@radix-ui/themes";
+import delay from "delay";
 
 interface Props {
-  searchParams: IssueQuery | Promise<IssueQuery>;
+  searchParams: IssueQuery;
 }
-const IssuesPage = async ({ searchParams: rawSearchParams }: Props) => {
-  const searchParams = await rawSearchParams;
+
+const IssuesPage = async ({ searchParams }: Props) => {
   const statuses = Object.values(Status);
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
@@ -34,6 +35,7 @@ const IssuesPage = async ({ searchParams: rawSearchParams }: Props) => {
   });
 
   const issueCount = await prisma.issue.count({ where });
+  await delay(100);
   return (
     <Flex direction="column" gap="3">
       <IssueActions />
@@ -46,12 +48,9 @@ const IssuesPage = async ({ searchParams: rawSearchParams }: Props) => {
     </Flex>
   );
 };
-
-export const dynamic = "force-dynamic";
+export default IssuesPage;
 
 export const metadata: Metadata = {
   title: "Issue Tracker - Issue List",
   description: "View all project issues",
 };
-
-export default IssuesPage;

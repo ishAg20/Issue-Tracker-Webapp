@@ -8,22 +8,28 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
 import { cache } from "react";
+import delay from "delay";
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
-const fetchUser = cache((issueId: number) =>
-  prisma.issue.findUnique({ where: { id: issueId } })
-);
+const fetchUser = cache((issueId: number) => {
+  return prisma.issue.findUnique({
+    where: { id: issueId },
+  });
+});
 
 const IssueDetailPage = async ({ params }: Props) => {
   const session = await getServerSession(authOptions);
 
-  const { id } = await params;
-  const issue = await fetchUser(parseInt(id));
+  const issue = await fetchUser(parseInt(params.id));
 
-  if (!issue) notFound();
+  if (!issue) {
+    notFound();
+  }
+
+  await delay(100);
 
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
@@ -43,14 +49,13 @@ const IssueDetailPage = async ({ params }: Props) => {
   );
 };
 
+export default IssueDetailPage;
+
 export async function generateMetadata({ params }: Props) {
-  const { id } = await params;
-  const issue = await fetchUser(parseInt(id));
+  const issue = await fetchUser(parseInt(params.id));
 
   return {
     title: issue?.title,
     description: "Details of issue " + issue?.id,
   };
 }
-
-export default IssueDetailPage;
